@@ -1,7 +1,6 @@
-main-local.php
-params-local.php
-test-local.php
 .idea
 *.md
 *.bat
-vendor
+index-test.php
+robots.txt
+css

@@ -1,0 +1,18 @@
+{
+  "name": "milan/functions",
+  "type": "library",
+  "description": "Create deep copies (clones) of your objects",
+  "keywords": ["clone", "copy", "duplicate", "object", "object graph"],
+  "homepage": "https://github.com/myclabs/DeepCopy",
+  "license": "MIT",
+  "autoload": {
+    "psr-0": { "Functions": "functions/" },
+  },
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "require-dev": {
+    "doctrine/collections": "1.*",
+    "phpunit/phpunit": "~4.1"
+  }
+}
