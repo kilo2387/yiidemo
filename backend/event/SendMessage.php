@@ -4,8 +4,12 @@
  *
  */
 namespace backend\event;
-use yii\base\Event;
 
+/**
+ * Class SendMessage
+ * @package backend\event
+ * 信息发送类
+ */
 class SendMessage{
 //    public function init()
 //    {
