@@ -7,5 +7,6 @@
  */
 
 return [
-    'defaultRoute' => 'index/list'   //  默认路由
+    'defaultRoute' => 'index/list',   //  默认路由
+
 ];
