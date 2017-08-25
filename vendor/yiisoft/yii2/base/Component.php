@@ -665,9 +665,11 @@ class Component extends Object
      */
     private function attachBehaviorInternal($name, $behavior)
     {
+        //如果不是行为，那么创建他
         if (!($behavior instanceof Behavior)) {
             $behavior = Yii::createObject($behavior);
         }
+        //
         if (is_int($name)) {
             $behavior->attach($this);
             $this->_behaviors[] = $behavior;
