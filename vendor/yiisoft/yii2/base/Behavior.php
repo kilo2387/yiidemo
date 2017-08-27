@@ -70,7 +70,9 @@ class Behavior extends Object
      */
     public function attach($owner)
     {
+        //宿主对象
         $this->owner = $owner;
+        //便历事件,绑定到宿主对象
         foreach ($this->events() as $event => $handler) {
             $owner->on($event, is_string($handler) ? [$this, $handler] : $handler);
         }
@@ -84,10 +86,13 @@ class Behavior extends Object
      */
     public function detach()
     {
+        //如果$owner保存了宿主类对象
         if ($this->owner) {
+            //解除行为的事件
             foreach ($this->events() as $event => $handler) {
                 $this->owner->off($event, is_string($handler) ? [$this, $handler] : $handler);
             }
+            //删除宿主对象
             $this->owner = null;
         }
     }

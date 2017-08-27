@@ -37,7 +37,7 @@ class IndexController extends Controller{
     {
         if (time() > strtotime('2017-08-24 23:30:00')){
             SendEvent::on(
-                Index::class,
+                Index::class,                    
                 Index::EVENT_SEND_SOME,
                 function ($event) {
                     echo $event->sender . ' 下班了'."\n";
@@ -65,7 +65,6 @@ class IndexController extends Controller{
         SendEvent::trigger(Index::class, Index::EVENT_SEND_SOME);
     }
 
-    //
     public function actionComponent()
     {   (new Index())->init();
         (new Index())->trigger(Index::EVENT_SEND_COM);

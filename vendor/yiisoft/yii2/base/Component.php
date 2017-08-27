@@ -593,6 +593,7 @@ class Component extends Object
      */
     public function attachBehavior($name, $behavior)
     {
+        //确保之前的行为已经绑定
         $this->ensureBehaviors();
         return $this->attachBehaviorInternal($name, $behavior);
     }
@@ -620,8 +621,10 @@ class Component extends Object
      */
     public function detachBehavior($name)
     {
+        //确保行为已经绑定
         $this->ensureBehaviors();
         if (isset($this->_behaviors[$name])) {
+            //如果存在行为,删除行为
             $behavior = $this->_behaviors[$name];
             unset($this->_behaviors[$name]);
             $behavior->detach();
@@ -649,7 +652,9 @@ class Component extends Object
     {
         if ($this->_behaviors === null) {
             $this->_behaviors = [];
+//            var_dump($this->behaviors());
             foreach ($this->behaviors() as $name => $behavior) {
+//                die('er');
                 $this->attachBehaviorInternal($name, $behavior);
             }
         }
@@ -669,14 +674,17 @@ class Component extends Object
         if (!($behavior instanceof Behavior)) {
             $behavior = Yii::createObject($behavior);
         }
-        //
+        //如果是匿名行为
         if (is_int($name)) {
             $behavior->attach($this);
             $this->_behaviors[] = $behavior;
         } else {
+            //否则是命名行为
             if (isset($this->_behaviors[$name])) {
+                //如果有这个行为,解除注入
                 $this->_behaviors[$name]->detach();
             }
+            //注入行为
             $behavior->attach($this);
             $this->_behaviors[$name] = $behavior;
         }
