@@ -26,7 +26,7 @@ class ClassController extends BaseController {
             ]
         ]);
 
-        var_dump($dataProvider);
+//        var_dump($dataProvider);
 
         return $this->render('read', [
             'dataProvider'=>$dataProvider,
@@ -34,9 +34,6 @@ class ClassController extends BaseController {
     }
 
     public function actionTest(){
-        $model = new Classes();
-
-        $records = $model->findOne(1);
-        var_dump($records->title->title);die();
+        return $this->render('test');
     }
 }

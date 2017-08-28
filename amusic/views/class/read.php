@@ -14,7 +14,147 @@ use yii\grid\GridView;
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <!-- begin datepicker -->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<!--    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <link rel="stylesheet" type="text/css" href="../H-ui.admin/static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../H-ui.admin/static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="../H-ui.admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+    <!--<link rel="stylesheet" type="text/css" href="../H-ui.admin/static/h-ui.admin/skin/default/skin.css" id="skin" />-->
+    <link rel="stylesheet" type="text/css" href="../H-ui.admin/static/h-ui.admin/css/style.css" />
 
+
+
+
+    <!--[if IE 6]>
+    <script type="text/javascript" src="../H-ui.admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+
+    <!--_footer 作为公共模版分离出去-->
+    <script type="text/javascript" src="../H-ui.admin/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../H-ui.admin/lib/layer/2.4/layer.js"></script>
+    <script type="text/javascript" src="../H-ui.admin/static/h-ui/js/H-ui.min.js"></script>
+    <script type="text/javascript" src="../H-ui.admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    <!--<script type="text/javascript" src="../H-ui.admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>-->
+    <!--<script type="text/javascript" src="../H-ui.admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>-->
+
+
+    <!--<script type="text/javascript" src="../H-ui.admin/lib/laypage/1.2/laypage.js"></script>-->
+    <script type="text/javascript" src="../assets/b794defa/js/bootstrap-datepicker.js"></script>
+    <link rel="stylesheet" href="../assets/b794defa/css/theme-default.css">
+<!--    <style>-->
+<!--        .input-group-addon {-->
+<!--            border-color: #1b1e24;-->
+<!--            background-color: #1b1e24;-->
+<!--            font-size: 13px;-->
+<!--            padding: 0px 10px;-->
+<!--            line-height: 28px;-->
+<!--            color: #FFF;-->
+<!--            text-align: center;-->
+<!--            min-width: 36px;-->
+<!--        }-->
+<!--        div.datepicker {-->
+<!--            padding: 4px;-->
+<!--            -moz-box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.1);-->
+<!--            -webkit-box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.1);-->
+<!--            box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.1);-->
+<!--        }-->
+<!--        div.datepicker > div {-->
+<!--            display: none;-->
+<!--        }-->
+<!--        div.datepicker table {-->
+<!--            width: 100%;-->
+<!--            margin: 0;-->
+<!--        }-->
+<!--        div.datepicker td,-->
+<!--        div.datepicker th {-->
+<!--            text-align: center;-->
+<!--            width: 20px;-->
+<!--            height: 20px;-->
+<!--        }-->
+<!--        div.datepicker td.day:hover {-->
+<!--            background: #F5F5F5;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+<!--        div.datepicker td.day.disabled {-->
+<!--            color: #CCC;-->
+<!--        }-->
+<!--        div.datepicker td.old,-->
+<!--        div.datepicker td.new {-->
+<!--            color: #999;-->
+<!--        }-->
+<!--        div.datepicker td.active,-->
+<!--        div.datepicker td.active:hover {-->
+<!--            background: #1b1e24;-->
+<!--            color: #fff;-->
+<!--            -moz-border-radius: 3px;-->
+<!--            -webkit-border-radius: 3px;-->
+<!--            border-radius: 3px;-->
+<!--        }-->
+<!--        div.datepicker td span {-->
+<!--            display: block;-->
+<!--            width: 31%;-->
+<!--            height: 54px;-->
+<!--            line-height: 54px;-->
+<!--            float: left;-->
+<!--            margin: 2px;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+<!--        div.datepicker td span:hover {-->
+<!--            background: #F5F5F5;-->
+<!--        }-->
+<!--        div.datepicker td span.active {-->
+<!--            background: #1b1e24;-->
+<!--            color: #fff;-->
+<!--            -moz-border-radius: 3px;-->
+<!--            -webkit-border-radius: 3px;-->
+<!--            border-radius: 3px;-->
+<!--        }-->
+<!--        div.datepicker td span.old {-->
+<!--            color: #999;-->
+<!--        }-->
+<!--        div.datepicker th.switch {-->
+<!--            width: 145px;-->
+<!--        }-->
+<!--        div.datepicker th.next,-->
+<!--        div.datepicker th.prev {-->
+<!--            font-size: 12px;-->
+<!--        }-->
+<!--        div.datepicker thead tr:first-child th {-->
+<!--            cursor: pointer;-->
+<!--            padding: 8px 0px;-->
+<!--        }-->
+<!--        div.datepicker thead tr:first-child th:hover {-->
+<!--            background: #F5F5F5;-->
+<!--            -moz-border-radius: 3px;-->
+<!--            -webkit-border-radius: 3px;-->
+<!--            border-radius: 3px;-->
+<!--        }-->
+<!--        .input-append.date .add-on i,-->
+<!--        .input-prepend.date .add-on i {-->
+<!--            display: block;-->
+<!--            cursor: pointer;-->
+<!--            width: 16px;-->
+<!--            height: 16px;-->
+<!--        }-->
+<!--        .datepicker.dropdown-menu:after,-->
+<!--        .datepicker.dropdown-menu:before {-->
+<!--            left: 16px;-->
+<!--        }-->
+<!--        .datepicker.datepicker-orient-left.dropdown-menu:after,-->
+<!--        .datepicker.datepicker-orient-left.dropdown-menu:before {-->
+<!--            left: auto;-->
+<!--            right: 16px;-->
+<!--        }-->
+<!--        /*.datepicker-switch, .day, .dow {*/-->
+<!--            /*color: #000000;*/-->
+<!--            /*font-weight:bold*/-->
+<!--        /*}*/-->
+<!--    </style>-->
+    <!-- end datepicker -->
     <title>资讯列表</title>
 </head>
 <body>
@@ -29,9 +169,24 @@ use yii\grid\GridView;
 			<option value="2">分类二</option>
 		</select>
 		</span> 日期范围：
-        <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })" id="logmin" class="input-text Wdate" style="width:120px;">
+<!--        <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })" id="beginDate" class="input-text Wdate datepicker" style="width:120px;">-->
         -
-        <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })" id="logmax" class="input-text Wdate" style="width:120px;">
+<!--        <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })" id="endDate" class="input-text Wdate datepicker" style="width:120px;">-->
+
+        <div class="input-group col-md-2" style="float: right">
+            <input type="text" id="beginDate" class="form-control col-md-1 datepicker">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+            </div>
+        </div>
+
+        <div class="input-group col-md-2" style="float: right">
+            <input type="text" id="endDate" class="form-control col-md-1 datepicker">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+            </div>
+        </div>
+
         <input type="text" name="" id="" placeholder=" 资讯名称" style="width:250px" class="input-text">
         <button name="" id="btn-search" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜资讯</button>
     </div>
@@ -115,7 +270,9 @@ use yii\grid\GridView;
     </div>
 </div>
 
-<link rel="stylesheet" type="text/css" href="../assets/b794defa/css/bootstrap.css" />
+
+
+<!--<link rel="stylesheet" type="text/css" href="../assets/b794defa/css/bootstrap.css" />-->
 
 
 <!--[if lt IE 9]>
@@ -128,31 +285,37 @@ use yii\grid\GridView;
         margin-bottom: 0;
     }
 </style>
-<link rel="stylesheet" type="text/css" href="../H-ui.admin/static/h-ui/css/H-ui.min.css" />
-<link rel="stylesheet" type="text/css" href="../H-ui.admin/static/h-ui.admin/css/H-ui.admin.css" />
-<link rel="stylesheet" type="text/css" href="../H-ui.admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
-<link rel="stylesheet" type="text/css" href="../H-ui.admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
-<link rel="stylesheet" type="text/css" href="../H-ui.admin/static/h-ui.admin/css/style.css" />
 
-
-
-
-<!--[if IE 6]>
-<script type="text/javascript" src="../H-ui.admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
-<script>DD_belatedPNG.fix('*');</script>
-<![endif]-->
-
-<!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="../H-ui.admin/lib/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="../H-ui.admin/lib/layer/2.4/layer.js"></script>
-<script type="text/javascript" src="../H-ui.admin/static/h-ui/js/H-ui.min.js"></script>
-<script type="text/javascript" src="../H-ui.admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
-
-<!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="../H-ui.admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
-<script type="text/javascript" src="../H-ui.admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-<!--<script type="text/javascript" src="../H-ui.admin/lib/laypage/1.2/laypage.js"></script>-->
 <script type="text/javascript">
+
+//    $('#beginDate').datepicker(
+//        {
+//            language:  "zh-CN",
+//            startView: 0,
+//            format: "yyyy-mm-dd",
+//            endDate:new Date(new Date().getTime() - 24 * 1 * 3600000)
+//        }).on('changeDate', function(ev){
+//        if(ev.date){
+//            $('#end').datepicker('setStartDate', new Date(ev.date.valueOf()))
+//        }else{
+//            $('#end').datepicker('setStartDate',null);
+//        }
+//    })
+//
+//    $('#endDate').datepicker(
+//        {
+//            language:  "zh-CN",
+//            startView:0,
+//            format: "yyyy-mm-dd",
+//            endDate:new Date(new Date().getTime() - 24 * 1 * 3600000)
+//        }).on('changeDate', function(ev){
+//        if(ev.date){
+//            $('#begin').datepicker('setEndDate', new Date(ev.date.valueOf()))
+//        }else{
+//            $('#begin').datepicker('setEndDate',new Date());
+//        }
+//
+//    })
 
     $('#btn-search').click(function () {
 
@@ -179,15 +342,15 @@ use yii\grid\GridView;
         location.href = 'http://music.ssting.com.cn/class/read'
     });
 
-    $('.table-sort').dataTable({
-        "aaSorting": [[ 1, "desc" ]],//默认第几个排序
-        "bStateSave": true,//状态保存
-        "pading":false,
-        "aoColumnDefs": [
-            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-            {"orderable":false,"aTargets":[0,8]}// 不参与排序的列
-        ]
-    });
+//    $('.table-sort').dataTable({
+//        "aaSorting": [[ 1, "desc" ]],//默认第几个排序
+//        "bStateSave": true,//状态保存
+//        "pading":false,
+//        "aoColumnDefs": [
+//            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+//            {"orderable":false,"aTargets":[0,8]}// 不参与排序的列
+//        ]
+//    });
 
     /*资讯-添加*/
     function article_add(title,url,w,h){
@@ -271,6 +434,34 @@ use yii\grid\GridView;
         layer.msg('已提交申请，耐心等待审核!', {icon: 1,time:2000});
     }
 
+$('#beginDate').datepicker(
+    {
+        language:  "zh-CN",
+        startView: 0,
+        format: "yyyy-mm-dd",
+        endDate:new Date(new Date().getTime() - 24 * 1 * 3600000)
+    }).on('changeDate', function(ev){
+    if(ev.date){
+        $('#endDate').datepicker('setStartDate', new Date(ev.date.valueOf()))
+    }else{
+        $('#endDate').datepicker('setStartDate',null);
+    }
+})
+
+$('#endDate').datepicker(
+    {
+        language:  "zh-CN",
+        startView:0,
+        format: "yyyy-mm-dd",
+        endDate:new Date(new Date().getTime() - 24 * 1 * 3600000)
+    }).on('changeDate', function(ev){
+    if(ev.date){
+        $('#beginDate').datepicker('setEndDate', new Date(ev.date.valueOf()))
+    }else{
+        $('#beginDate').datepicker('setEndDate',new Date());
+    }
+
+})
 </script>
 </body>
 </html>
