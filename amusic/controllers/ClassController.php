@@ -36,4 +36,7 @@ class ClassController extends BaseController {
     public function actionTest(){
         return $this->render('test');
     }
+    public function actionDate(){
+        return $this->render('date');
+    }
 }

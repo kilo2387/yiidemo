@@ -1,0 +1,91 @@
+/*@import url( pygment_trac.css );*/
+body {
+	background: rgb(33, 33, 33); color: rgb(55, 55, 55); line-height: 1.5; padding-right: 0px; padding-left: 0px; font-family: "Myriad Pro", Calibri, Helvetica, Arial, sans-serif; font-size: 16px; box-sizing: border-box; -webkit-font-smoothing: antialiased; padding-right-left: 0;
+}
+a {
+	transition:text-shadow 0.5s; color: rgb(0, 126, 223); text-decoration: none; text-shadow: none; -webkit-transition: text-shadow 0.5s ease; -moz-transition: text-shadow 0.5s ease; -o-transition: text-shadow 0.5s ease;
+}
+footer a:hover {
+	color: rgb(67, 173, 255); text-shadow: 0px 0px 2px #0090ff;
+}
+footer {
+	margin-top: 20px;
+}
+pre {
+	border-radius: 2px; color: rgb(34, 34, 34); font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace; font-size: 14px; background-color: rgb(255, 255, 255); -webkit-border-radius: 2px; -moz-border-radius: 2px;
+}
+code {
+	border-radius: 2px; color: rgb(34, 34, 34); font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace; font-size: 14px; background-color: rgb(255, 255, 255); -webkit-border-radius: 2px; -moz-border-radius: 2px;
+}
+pre {
+	padding: 10px; overflow: auto; box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+code {
+	margin: 0px 3px; padding: 3px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+pre code {
+	display: block; box-shadow: none;
+}
+blockquote {
+	padding: 0px 0px 0px 20px; color: rgb(102, 102, 102); margin-bottom: 20px; border-left-color: rgb(187, 187, 187); border-left-width: 3px; border-left-style: solid;
+}
+.outer {
+	width: 100%;
+}
+header {
+	padding-right: 10px; padding-left: 10px;
+}
+section#main-content {
+	padding-right: 10px; padding-left: 10px;
+}
+footer {
+	padding-right: 10px; padding-left: 10px;
+}
+#header-wrap {
+	background: -ms-linear-gradient(rgb(55, 55, 55), rgb(33, 33, 33)); color: rgb(242, 242, 242);
+}
+#main-content-wrap {
+	background: rgb(242, 242, 242); border-top-color: rgb(17, 17, 17); border-bottom-color: rgb(17, 17, 17); border-top-width: 1px; border-bottom-width: 1px; border-top-style: solid; border-bottom-style: solid;
+}
+#main-content {
+	padding-top: 40px;
+}
+#main-content a:hover {
+	color: rgb(0, 105, 186); text-shadow: 0px 0px 2px #0090ff;
+}
+#footer-wrap {
+	background: rgb(33, 33, 33); height: 100px; color: rgb(242, 242, 242);
+}
+#downloads {
+	height: 20px; right: 100px; bottom: 10px; position: relative; z-index: 10;
+}
+#downloads .img {
+	background: url("../img/icon_download.png") no-repeat 0% 90%; width: 22px; height: 20px; padding-top: 50px; float: left; display: block;
+}
+.zip-download-link {
+	background: url("../img/sprite_download.png") no-repeat left bottom; width: 90px; height: 70px; overflow: hidden; float: left; display: block;
+}
+.zip-download-link:hover {
+	background: url("../img/sprite_download.png") no-repeat left top;
+}
+.tar-download-link {
+	background: url("../img/sprite_download.png") no-repeat right bottom; width: 90px; height: 70px; overflow: hidden; margin-left: 10px; float: left; display: block;
+}
+.tar-download-link:hover {
+	background: url("../img/sprite_download.png") no-repeat right top;
+}
+.download-descr {
+	display: none;
+}
+@media screen and (min-width:768px)
+{
+header {
+	padding-right: 0px; padding-left: 0px;
+}
+section#main-content {
+	padding-right: 0px; padding-left: 0px;
+}
+footer {
+	padding-right: 0px; padding-left: 0px;
+}
+}

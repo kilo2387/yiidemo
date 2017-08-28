@@ -82,7 +82,7 @@
                 <ul>
                     <li><a data-href="/class/read" data-title="品牌管理" href="javascript:void(0)">二级管理1</a></li>
                     <li><a data-href="/class/test" data-title="分类管理" href="javascript:void(0)">二级管理2</a></li>
-                    <li><a data-href="product-list.html" data-title="产品管理" href="javascript:void(0)">二级管理3</a></li>
+                    <li><a data-href="/class/date" data-title="产品管理" href="javascript:void(0)">二级管理3</a></li>
                 </ul>
             </dd>
         </dl>
