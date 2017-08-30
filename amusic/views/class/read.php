@@ -264,8 +264,12 @@ use yii\grid\GridView;
 //                ],
             // 'author_id',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+            ]
+//
         ],
+        'summary'=>'',
+
     ]); ?>
     </div>
 </div>
@@ -433,8 +437,10 @@ use yii\grid\GridView;
         $(obj).parents("tr").find(".td-manage").html("");
         layer.msg('已提交申请，耐心等待审核!', {icon: 1,time:2000});
     }
+var $j = $ =jQuery.noConflict();
 
-$('#beginDate').datepicker(
+    var end = $('#endDate');
+$j('#beginDate').datepicker(
     {
         language:  "zh-CN",
         startView: 0,
@@ -442,13 +448,13 @@ $('#beginDate').datepicker(
         endDate:new Date(new Date().getTime() - 24 * 1 * 3600000)
     }).on('changeDate', function(ev){
     if(ev.date){
-        $('#endDate').datepicker('setStartDate', new Date(ev.date.valueOf()))
+        end.datepicker('setStartDate', new Date(ev.date.valueOf()))
     }else{
-        $('#endDate').datepicker('setStartDate',null);
+        end.datepicker('setStartDate',null);
     }
 })
 
-$('#endDate').datepicker(
+$j('#endDate').datepicker(
     {
         language:  "zh-CN",
         startView:0,
@@ -456,9 +462,9 @@ $('#endDate').datepicker(
         endDate:new Date(new Date().getTime() - 24 * 1 * 3600000)
     }).on('changeDate', function(ev){
     if(ev.date){
-        $('#beginDate').datepicker('setEndDate', new Date(ev.date.valueOf()))
+        $j('#beginDate').datepicker('setEndDate', new Date(ev.date.valueOf()))
     }else{
-        $('#beginDate').datepicker('setEndDate',new Date());
+        $j('#beginDate').datepicker('setEndDate',new Date());
     }
 
 })

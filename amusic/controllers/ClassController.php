@@ -39,4 +39,8 @@ class ClassController extends BaseController {
     public function actionDate(){
         return $this->render('date');
     }
+
+    public function actionTime(){
+        return $this->render('datetime');
+    }
 }
