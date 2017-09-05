@@ -1,6 +1,6 @@
 <?php
 
-namespace amusic\assets;
+namespace acount\assets;
 
 use yii\web\AssetBundle;
 
@@ -15,7 +15,6 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
-//        'js/swer.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

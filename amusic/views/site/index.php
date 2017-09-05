@@ -1,3 +1,6 @@
+<?php
+\amusic\assets\AmusicAsset::register($this);
+?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -77,15 +80,27 @@
 <aside class="Hui-aside">
     <div class="menu_dropdown bk_2">
         <dl id="menu-product">
-            <dt><i class="Hui-iconfont">&#xe620;</i> 我的管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dt><i class="Hui-iconfont">&#xe620;</i>列表与搜索<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="/class/read" data-title="品牌管理" href="javascript:void(0)">二级管理1</a></li>
-                    <li><a data-href="/class/test" data-title="分类管理" href="javascript:void(0)">二级管理2</a></li>
-                    <li><a data-href="/class/date" data-title="产品管理" href="javascript:void(0)">二级管理3</a></li>
+                    <li><a data-href="/class/read" data-title="搜索列表" href="javascript:void(0)">搜索列表</a></li>
+                    <li><a data-href="/class/test" data-title="日期插件" href="javascript:void(0)">日期插件</a></li>
+                    <li><a data-href="/class/date" data-title="时期插件" href="javascript:void(0)">时期插件</a></li>
                 </ul>
             </dd>
         </dl>
+
+        <dl id="menu-product">
+            <dt><i class="Hui-iconfont">&#xe620;</i>模型框<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a data-href="/modal/editor" data-title="编辑框" href="javascript:void(0)">编辑框</a></li>
+                    <li><a data-href="/class/test" data-title="表单框" href="javascript:void(0)">表单框</a></li>
+                    <li><a data-href="/class/date" data-title="未知框" href="javascript:void(0)">未知框</a></li>
+                </ul>
+            </dd>
+        </dl>
+
         <dl id="menu-article">
             <dt><i class="Hui-iconfont">&#xe616;</i> 资讯管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
@@ -94,6 +109,7 @@
                 </ul>
             </dd>
         </dl>
+
         <dl id="menu-picture">
             <dt><i class="Hui-iconfont">&#xe613;</i> 图片管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
