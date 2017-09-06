@@ -11,16 +11,19 @@ class AmusicAsset extends AssetBundle {
     public $baseUrl = '@baseUrl';
 
     public $css = [
+//        'css/bootstrap.min.css'
     ];
 
     public $js = [
         'js/jquery-3.2.1.min.js',
         'js/bootstrap.min.js',
-//        'js/jquery.validate.js',
+//        'css/bootstrap.min.css'
+        'js/jquery.validate.js',
 //        'js/wer.werwer.js',
     ];
 
-//    public $depends = [
-//        'yii2',
-//    ];
+    public $depends = [
+        'yii\web\YiiAsset',
+        'yii\bootstrap\BootstrapAsset',
+    ];
 }
