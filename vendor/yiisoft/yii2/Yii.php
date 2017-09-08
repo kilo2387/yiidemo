@@ -22,9 +22,11 @@ class Yii extends \yii\BaseYii
 {
 }
 
+//注册Yii::autoload方法插入到栈的最前面
 spl_autoload_register(['Yii', 'autoload'], true, true);
 
-Yii::$classMap = require(__DIR__ . '/classes.php'); //yii vendor类
+//yii vendor类 读取一个映射表保存到 Yii::@classMap
+Yii::$classMap = require(__DIR__ . '/classes.php');
 
 //yii 容器    yii\di\Container => yii\base\Component  => yii\base\Object
 //Yii::configure();

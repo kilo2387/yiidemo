@@ -218,27 +218,33 @@ abstract class Application extends Module
      */
     public function preInit(&$config)
     {
-
-        // 应用的id eg: app-backend
+        //@app @vendor @npm @bwer @runtime
+        // 应用的id eg: app-backend 必须指定应用
         if (!isset($config['id'])) {
             throw new InvalidConfigException('The "id" configuration for the Application is required.');
         }
 
-        //应用的根目录 设置应用根目录、别名 @app
+        //应用的根目录 设置应用根目录、别名 @app  basePath属性，这个属性在Application的父类 yii\base\Module 中定义。
         if (isset($config['basePath'])) {
+            //这里设置@app
             $this->setBasePath($config['basePath']);
             unset($config['basePath']);
         } else {
             throw new InvalidConfigException('The "basePath" configuration for the Application is required.');
         }
 
+        // @vendor 如果配置文件中设置了 vendorPath 使用配置的值，否则使用默认的
         if (isset($config['vendorPath'])) {
+            //设置
             $this->setVendorPath($config['vendorPath']);
             unset($config['vendorPath']);
         } else {
             // set "@vendor"
+            //get -> set(defaultPath)
             $this->getVendorPath();
         }
+
+        // @runtime 如果配置文件中设置了 runtimePath ，就使用配置的值，否则使用默认的
         if (isset($config['runtimePath'])) {
             $this->setRuntimePath($config['runtimePath']);
             unset($config['runtimePath']);
@@ -260,6 +266,8 @@ abstract class Application extends Module
             unset($config['container']);
         }
 
+
+        //将coreComponents() 所定义的核心组件配置，与开发者通过配置文件定义 开发者配置优先
         // merge core components with custom components
         foreach ($this->coreComponents() as $id => $component) {
             if (!isset($config['components'][$id])) {
@@ -284,12 +292,16 @@ abstract class Application extends Module
      * This method is called by [[init()]] after the application has been fully configured.
      * If you override this method, make sure you also call the parent implementation.
      */
+
     protected function bootstrap()
     {
+        // 将 extensions.php 的内容读取进 $this->extensions 备用
         if ($this->extensions === null) {
             $file = Yii::getAlias('@vendor/yiisoft/extensions.php');
             $this->extensions = is_file($file) ? include($file) : [];
         }
+
+        // 遍历 $this->extensions 并注册别名
         foreach ($this->extensions as $extension) {
             if (!empty($extension['alias'])) {
                 foreach ($extension['alias'] as $name => $path) {
@@ -307,6 +319,7 @@ abstract class Application extends Module
             }
         }
 
+        // 遍历 $this->bootstrap 并注册别名
         foreach ($this->bootstrap as $class) {
             $component = null;
             if (is_string($class)) {
@@ -468,6 +481,7 @@ abstract class Application extends Module
      */
     public function setVendorPath($path)
     {
+        //这里设置了三个别名
         $this->_vendorPath = Yii::getAlias($path);
         Yii::setAlias('@vendor', $this->_vendorPath);
         Yii::setAlias('@bower', $this->_vendorPath . DIRECTORY_SEPARATOR . 'bower');

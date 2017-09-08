@@ -8,5 +8,4 @@
 
 return [
     'defaultRoute' => 'index/list',   //  默认路由
-
 ];

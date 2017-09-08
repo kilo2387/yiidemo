@@ -76,7 +76,7 @@ class BaseYii
      * @see getAlias()
      * @see setAlias()
      */
-    public static $aliases = ['@yii' => __DIR__];
+    public static $aliases = ['@yii' => __DIR__];   // 定义了 @yii 别名 用于保存整个Yii应用的所有的别名
     /**
      * @var Container the dependency injection (DI) container used by [[createObject()]].
      * You may use [[Container::set()]] to set up the needed dependencies of classes and
@@ -275,16 +275,21 @@ class BaseYii
      */
     public static function autoload($className)
     {
+        //自动加载
+        //检查$classMap[$className]是否在映射表中有拟加载信息
         if (isset(static::$classMap[$className])) {
+            //如果有看看它是不是别名,是的话解析别名
             $classFile = static::$classMap[$className];
             if ($classFile[0] === '@') {
                 $classFile = static::getAlias($classFile);
             }
+        //如果映射表中没有拟加载信息,看类名有没有 \ ,如果有就替换为合法的别名,解析
         } elseif (strpos($className, '\\') !== false) {
             $classFile = static::getAlias('@' . str_replace('\\', '/', $className) . '.php', false);
             if ($classFile === false || !is_file($classFile)) {
                 return;
             }
+        //直接返回
         } else {
             return;
         }
