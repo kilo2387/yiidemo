@@ -45,6 +45,25 @@ return [
             ],
         ],
 
+        'myEmail'=>[
+            'class'=>'common\event\SendEmailEvent',
+//            'config' => [
+                'is_bug'     => 1,
+                'host'      => 'smtp.qq.com',
+                'username'      =>'237081788@qq.com',
+                'from_address'=>'237081788@qq.com',
+                'port'      => '465',
+                'auth_token'=> 'reohxlmtecubbiie',
+
+
+//                'title'     => 'hello world',
+                'from_name' => '思听网',
+//                'content'   => ''
+//            ]
+        ]
+
+
+
     ],
     'params' => $params,
 ];

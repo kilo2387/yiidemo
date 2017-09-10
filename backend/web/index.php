@@ -1,6 +1,7 @@
 <?php
 //use backend\controllers\IndexController;
-
+defined('YII_DEBUG') or define('YII_DEBUG', true);
+defined('YII_ENV') or define('YII_ENV', 'dev');
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 //__DIR__ /www/web/yiidemo/backend/web

@@ -156,6 +156,19 @@ class MailController extends Controller{
     public function actionSendmail(){
         error_reporting(E_ALL);
         ini_set('display_errors', '1');
-        new SendEmailEvent(1,1);
+        new SendEmailEvent('569640735@qq.com','lsgo在线通知','恭喜你成功加入LSGO实验室，开启你的学习之旅吧！');
+    }
+
+    public function actionGo(){
+        $tos = [
+            '15817487936@163.com'=>'网易',
+            '569640735@qq.com'=>'QQ',
+            'kilometer053983@gmail.com'=>'Google'
+        ];
+
+        $content = '你好, <b>朋友</b>! <br/>这是一封来自<a href="http://www.ssting.com.cn" target="_blank">思听网ssting.com.cn</a>的邮件！<br/><img alt="github_cat" src="http://static.ssting.com.cn/img/zy_cat.jpg">'; //邮件主体内容
+
+        $title = 'yii2.0+phpmailer发送邮件组件代码实现';
+        Yii::$app->myEmail->to($tos)->title($title)->content($content)->send();
     }
 }
