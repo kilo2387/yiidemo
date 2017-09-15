@@ -20,9 +20,10 @@ class Remind extends ActiveRecord{
         // 按顺序执行
         // default validate 后才会赋值
         // skipOnError=true 报错则跳过
-        // skipOnEmpty=true 为空测跳过
+        // skipOnEmpty=true 为空则跳过
         // field , callback 把不合法的数据转换成合法的
         // in range
+        // [['content'], 'url', 'skipOnEmpty'=>false],
         return [
 //
 //
