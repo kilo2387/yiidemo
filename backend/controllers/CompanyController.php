@@ -5,6 +5,7 @@
  * Date: 2017/8/25
  * Time: 10:38
  */
+
 namespace backend\controllers;
 
 use backend\behaviors\CompanyBehavior;
@@ -12,17 +13,19 @@ use backend\models\Company;
 use yii\base\Component;
 use yii\web\Controller;
 
-class CompanyController extends Controller{
+class CompanyController extends Controller
+{
     private $_company;
 
-//    public function init(){
-//        $this->_company = new Company();    //Company类的对象
-//    }
+    //    public function init(){
+    //        $this->_company = new Company();    //Company类的对象
+    //    }
 
     /**
      * 行为绑定的原理
      */
-    public function desc(){
+    public function desc()
+    {
         //1、调用attachBehavior绑定 行为键名为 sfd, CompanyBehavior行为
         $company = new Company();
         $company->attachBehavior('sfd', new CompanyBehavior());
@@ -50,12 +53,11 @@ class CompanyController extends Controller{
         */
 
         //4、注入行为
-//        $behavior->attach($this);
+        //        $behavior->attach($this);
 
 
-
-//        yii\base\Component::behaviors();  返回一个数组用于描述行为
-//        yii\base\Component::ensureBehaviors();    确保 behaviors() 中所描述的行为已经进行了绑定
+        //        yii\base\Component::behaviors();  返回一个数组用于描述行为
+        //        yii\base\Component::ensureBehaviors();    确保 behaviors() 中所描述的行为已经进行了绑定
 
         /*
             yii\base\Component::attachBehaviorInternal();     // // 不是 Behavior 实例，说是只是类名、配置数组，那么就创建出来吧
@@ -96,24 +98,25 @@ class CompanyController extends Controller{
     /**
      * 动态绑定行为
      */
-    public function actionIndex(){
+    public function actionIndex()
+    {
         $company = new Company();
         //动态绑定行为
-        $company->attachBehaviors(['ser'=>'backend\behaviors\CompanyBehavior','erw'=>new CompanyBehavior()]);
-//        $this->_company->attachBehaviors([
-//            'myBehavior1' => new CompanyBehavior,  // 这是一个命名行为
-//            CompanyBehavior::className(),          // 这是一个匿名行为
-//        ]);
+        $company->attachBehaviors(['ser' => 'backend\behaviors\CompanyBehavior', 'erw' => new CompanyBehavior()]);
+        //        $this->_company->attachBehaviors([
+        //            'myBehavior1' => new CompanyBehavior,  // 这是一个命名行为
+        //            CompanyBehavior::className(),          // 这是一个匿名行为
+        //        ]);
 
-        echo  $company->updateName() .'<br>';
-//        echo  (new Company())->updateName();  //动态绑定只对当前对象起作用
+        echo $company->updateName() . '<br>';
+        //        echo  (new Company())->updateName();  //动态绑定只对当前对象起作用
 
         $company->trigger(Company::EVENT_TEST_BEHAVIOR);
-        echo  $company->updateName() .'<br>';
+        echo $company->updateName() . '<br>';
 
-//        $behaviors = $company->getBehaviors();
-//        var_dump($behaviors);die;
-//        $this->getBehaviors();
+        //        $behaviors = $company->getBehaviors();
+        //        var_dump($behaviors);die;
+        //        $this->getBehaviors();
 
     }
 
@@ -121,7 +124,8 @@ class CompanyController extends Controller{
      * 获取行为
      * s所有
      */
-    public function getBehaviors(){
+    public function getBehaviors()
+    {
         $behavior = $this->_company->getBehavior('myBehavior2');
         $behaviors = $this->_company->getBehaviors();
         var_dump($behaviors);
@@ -130,8 +134,55 @@ class CompanyController extends Controller{
     /**
      * 删除
      */
-    public function delBehaviors(){
+    public function delBehaviors()
+    {
         (new Company())->detachBehavior('myBehavior2');
         (new Company())->detachBehaviors();
+    }
+
+    public function actionTest()
+    {
+        $c_ids = [15, 16];
+        $info = $query = CompanyUsers::find()->where(['in', CompanyUsers::tableName() . '.user', $c_ids]);
+        //var_dump($info);die;
+        $query->join('LEFT JOIN', UserExamRecord::tableName(), UserExamRecord::tableName() . '.user = ' . CompanyUsers::tableName() . '.user');
+
+        $query->joinWith(UserExamRecord::tableName() . '.user = ' . CompanyUsers::tableName() . '.user', true, 'LEFT JOIN');
+
+        $query->select(CompanyUsers::tableName() . '.*,' . UserExamRecord::tableName() . '.*');
+        $info = $query->all();
+        var_dump($info);
+
+        die('2');
+    }
+
+
+    public function actionTest2()
+    {
+        $s = 'select a.* from user_exam_record a where created = (select max(created) 
+
+from user_exam_record where user = a.user) order by a.created
+';
+        $subQuery = new Query();
+
+        //        $subQuery = (new Query())->from('user_exam_record')->orderBy('created desc');
+        //        $users_records = UserExamRecord::find()->from(['tmpA' => $subQuery])->where(['target' => $params->id])->groupBy('user')->all();
+
+
+        $oser = $subQuery->select('max(created) as created')->from('user_exam_record')->where('user = ftb.user')->andWhere(['exam' => 1]); // 考试id
+
+
+        $uew = (new Query());
+        $uew->from('user_exam_record ftb')->where(['=', 'ftb.created', $subQuery])->orderBy('ftb.created desc');
+
+
+        //var_dump($uew);die;
+        $com = new Query();
+        $id = 77;
+        $coms = $com->from('company_users')->leftJoin(['ftb' => $uew], 'ftb.user = company_users.user')->where("FIND_IN_SET('{$id}', groups)")//部门
+            ->select('company_users.*,ftb.created')->all();
+
+        var_dump($coms);
+
     }
 }
