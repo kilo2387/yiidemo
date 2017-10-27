@@ -211,4 +211,52 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+
+    public function actionData()
+    {
+
+        $params = $this->checkParams(['day'], Yii::$app->request->get(), [
+            [['day'], 'default', 'value' => 1],
+            [['day'], 'integer'],
+        ]);
+        $queryTime = $this->getDaysDate($params->day);
+        $query = Exams::find();
+        $query->where(['between', 'start_time', $queryTime['start_time'], $queryTime['end_time']]);
+        $query->andWhere(['type'=>Exams::TYPE_EXAM]);
+        $exams = $query->asArray()->all();
+
+        //场数
+        $examsNum = count($exams);
+
+        //人数
+        $testNum = array_sum(ArrayHelper::getColumn($exams, 'test_num'));
+
+        //公司数
+        $totalCompany = array_sum(array_unique(ArrayHelper::getColumn($exams, 'company')));
+
+
+        //公司考试次数top 10
+        $topTen = Exams::find()->select('count(*) count, company')
+            ->where(['between', 'start_time', $queryTime['start_time'], $queryTime['end_time']])
+            ->andWhere(['type'=>Exams::TYPE_EXAM])
+            ->groupBy('company')->orderBy('count desc')->asArray()->limit(5)->all();
+
+        //考试人数top 10
+        $numTop = Exams::find()->select('sum(test_num) total, company')
+            ->where(['between', 'start_time', $queryTime['start_time'], $queryTime['end_time']])
+            ->andWhere(['type'=>Exams::TYPE_EXAM])
+            ->groupBy('company')->orderBy('total desc')->asArray()->limit(5)->all();
+
+
+        return $this->render('data', [
+            'data' => [
+                'examsNum' => $examsNum,
+                'testNum' => $testNum,
+                'totalCompany' => $totalCompany,
+                'topTen' => $topTen,
+                'numTop' => $numTop
+            ]
+        ]);
+    }
 }
