@@ -1,54 +1,17 @@
 <?php
 /**
- * Created by kilo with IntelliJ IDEA on 2017/8/24 0:25.
- *
+ * Created by PhpStorm.
+ * User: kilo
+ * Date: 2017/11/14
+ * Time: 13:51
  */
 
 namespace milan\functions;
 
-//use yii\helpers\BaseArrayHelper;
-
-class Functions
+class QueryShort
 {
-    public static function print_pre($params)
-    {
-        echo '<pre>';
-        print_r($params);
-        echo '</pre>';
-    }
-
     /**
-     * 1,2,3转a,b,c
-     * @param $delimiter
-     * @param $string
-     * @param $combine
-     * @return string
-     */
-    private function changeIntString($delimiter, $string, $combine)
-    {
-        $temp = explode($delimiter, $string);
-
-        $forbidden = [];
-        foreach($temp as $item){
-            $forbidden[] = $combine[$item];
-        }
-
-        return join($delimiter, $forbidden);
-    }
-
-    /**
-     * 计算百分比
-     * @param $firstValue
-     * @param $nextValue
-     * @param int $precision
-     * @return float|int
-     */
-    public static function countPercent($firstValue, $nextValue, $precision = 2)
-    {
-        return $nextValue != 0 ? round($firstValue / $nextValue * 100, $precision) : 0;
-    }
-
-    /**
+     * 多个or like 关键词
      * @param $query \yii\db\ActiveQuery
      * @param array $fields
      * $query->andwhere([
@@ -60,7 +23,6 @@ class Functions
      */
     private function queryOrKeyword(&$query, array $fields)
     {
-        //关键词
         if (!empty($fields)){
             $where = ['or'];
 
@@ -73,6 +35,7 @@ class Functions
     }
 
     /**
+     * 时间段
      * @param $query \yii\db\ActiveQuery
      * @param string $fieldFrom
      * @param string $fieldTo
@@ -115,6 +78,7 @@ class Functions
     }
 
     /**
+     * 等值
      * @param $query \yii\db\ActiveQuery
      * @param string $field
      * @param string $value

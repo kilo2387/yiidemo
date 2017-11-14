@@ -10,37 +10,45 @@ namespace amusic\controllers;
 
 use amusic\models\Classes;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 
-class ClassController extends BaseController {
-    public function actionRead(){
+class ClassController extends BaseController
+{
+    public function actionRead()
+    {
         $query = Classes::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => ['pageSize'=>10],
-            'sort'=>[
-                'defaultOrder'=>[
-                    'class_material_id'=>SORT_DESC
+            'pagination' => ['pageSize' => 10],
+            'sort' => [
+                'defaultOrder' => [
+                    'class_material_id' => SORT_DESC
                 ],
-//                'attributes'=>['id','title']
+                //                'attributes'=>['id','title']
             ]
         ]);
 
-//        var_dump($dataProvider);
+        //        var_dump($dataProvider);
 
         return $this->render('read', [
-            'dataProvider'=>$dataProvider,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
-    public function actionTest(){
+    public function actionTest()
+    {
+
         return $this->render('test');
     }
-    public function actionDate(){
+
+    public function actionDate()
+    {
         return $this->render('date');
     }
 
-    public function actionTime(){
+    public function actionTime()
+    {
         return $this->render('datetime');
     }
 }
