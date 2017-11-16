@@ -159,10 +159,6 @@ class CompanyController extends Controller
 
     public function actionTest2()
     {
-        $s = 'select a.* from user_exam_record a where created = (select max(created) 
-
-from user_exam_record where user = a.user) order by a.created
-';
         $subQuery = new Query();
 
         //        $subQuery = (new Query())->from('user_exam_record')->orderBy('created desc');

@@ -6,76 +6,88 @@
 
 
 namespace milan\qrcode;
-//use PHPUnit\Exception;
-//use yii\base\ErrorException;
-include __DIR__.'/phpqrcode.php';
+include __DIR__ . '/phpqrcode.php';
 
+/**
+ * Class GenerateQRCode
+ * @package milan\qrcode
+ * @property $ret
+ * @property $data
+ * @property $ret
+ * @property $path
+ * @property $errcode
+ * @property $message
+ */
+class GenerateQRCode
+{
+    public $ret;
+    public $data;
+    public $path;
+    public $message;
+    public $errcode;
 
-class GenerateQRCode{
-    private $ret;
-    private $data;
-    private $path;
-    private $mesaage;
-    public function __construct($data, $fileName = '', $filePath = '', $margin = 2)
+    const FAILED = 0;
+    const SUCCESS = 1;
+    public static $STATUS = [
+        self::FAILED => ['label' => '成功'],
+        self::SUCCESS => ['label' => '失败']
+    ];
+
+    public function __construct($data, $fileName = '', $filePath = '', $size = 4, $margin = 2,$errorCorrectionLevel = 'L')
     {
-//        $ret = ['ret'=>'0', 'data'=>'', 'errcode'=>'1', 'msg'=>'成功'];
-        $this->ret = 0;
-        $this->data = $data;
-        try {
-            if (!is_string($data)) {
-                throw new \Exception('生成数据必须是字符串', '1001');
-            }
-        }catch (\Exception $e){
-            $this->errcode = $e->getCode();
-            $this->path = '';
-            $this->mesaage = $e->getMessage();
-            return $this;
+        $fileName = trim($fileName, '/');
+
+        if ($data == null) {
+            return false;
         }
-        var_dump($filePath);
 
-        $fileName = trim($fileName,'/');
+        if(is_string($data)){
+            $data = trim($data);
+        }
 
-        if(!$fileName || !is_string($fileName)){
-            $rand = date('Ymdhis').md5(microtime() . rand(10000, 99999));
+        if (!$fileName || !is_string($fileName)) {
+            $rand = date('Ymdhis') . md5(microtime() . rand(10000, 99999));
             $fileName = $rand . '.png';
-        }else{
+        } else {
             $fileName .= '.png';
         }
 
-
-
-        if($filePath) {
-            $filePath = '/'.trim($filePath,'/').'/';
+        if ($filePath) {
+            $filePath = '/' . trim($filePath, '/') . '/';
             $filePath .= $fileName;
-        }else{
-            $filePath = '/www/data/img/qrcode/' . $fileName;;
+        } else {
+            $filePath = '/www/images/qrcodes/' . $fileName;;
         }
 
-        $errorCorrectionLevel = 'L';
-        $matrixPointSize = 4;
+        if($size > 100){
+            return $this->result($data, $filePath, false, '100', '要生成的尺寸过大');
+        }
+        $matrixPointSize = $size;
 
         \QRcode::png($data, $filePath, $errorCorrectionLevel, $matrixPointSize, 2);
-        try{
+        try {
             chmod($filePath, 0755);
-        }catch (\ErrorException $e){
-
-            $this->data = $data;
-            $this->errcode = '755';
-            $this->path = $filePath;
-            $this->massage = '没有目录权限';
-            return $this;
+        } catch (\ErrorException $e) {
+            return $this->result($data, $filePath, false, '755', '没有目录权限');
         }
 
-//        if (!$ret){
-////            unlink($filePath) or $ret['msg'] = "删除指定目录的临时文件失败";
-//        }
+        return $this->result($data, $filePath);
+    }
 
-        $this->ret = 1;
-        $this->data = $data;
-        $this->errcode = '0';
-        $this->path = $filePath;
-        $this->mesaage = '成功';
+    private function result($data, $filePath, $flag = true, $message = '成功', $code = 0){
+        if(boolval(intval($flag))) {
+            $this->ret = static::SUCCESS;
+            $this->data = $data;
+            $this->errcode = static::SUCCESS;
+            $this->path = $filePath;
+            $this->message = '成功';
+        }else{
+            $this->ret = static::FAILED;
+            $this->data = $data;
+            $this->errcode = $code;
+            $this->path = $filePath;
+            $this->message = $message;
+        }
         return $this;
-
     }
 }

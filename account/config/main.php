@@ -6,27 +6,24 @@ $params = array_merge(
 //    require(__DIR__ . '/params-local.php')
 );
 
-
 return [
-
-    'id' => 'app-backend',
+    'id' => 'app-account',
     'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'controllerNamespace' => 'account\controllers',
     'components' => [
         'request' => [
-            'csrfParam' => '_csrf-backend',
-            'cookieValidationKey' => 'JNDE-BL2E_P4XFiHCoaNXbh6FBEiWySL',
+            'csrfParam' => '_csrf-account',
+            'cookieValidationKey' => 'JNDE-BL2E_P4XFiHCoaNXbh6FBEiWySS',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'identityCookie' => ['name' => '_identity-account', 'httpOnly' => true],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced-backend',
+            // this is the name of the session cookie used for login on the frontend
+            'name' => 'advanced-account',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -48,27 +45,6 @@ return [
             ],
         ],
 
-        'myEmail'=>[
-            'class'=>'common\event\SendEmailEvent',
-//            'config' => [
-                'is_bug'     => 1,
-                'host'      => 'smtp.qq.com',
-                'username'      =>'237081788@qq.com',
-                'from_address'=>'237081788@qq.com',
-                'port'      => '465',
-                'auth_token'=> 'reohxlmtecubbiie',
-
-
-//                'title'     => 'hello world',
-                'from_name' => '思听网',
-//                'content'   => ''
-//            ]
-        ]
-
-
-
     ],
     'params' => $params,
-
-
 ];
