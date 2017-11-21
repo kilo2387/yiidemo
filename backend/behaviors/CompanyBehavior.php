@@ -7,10 +7,12 @@
  */
 
 namespace backend\behaviors;
+
 use backend\models\Company;
 use yii\base\Behavior;
 
-class CompanyBehavior extends Behavior{
+class CompanyBehavior extends Behavior
+{
 
     /**
      * @var \yii\base\Component object 成员变量用于指向行为的依附对象,用于指向行为的依附对象
@@ -28,7 +30,7 @@ class CompanyBehavior extends Behavior{
     public function events()
     {
         $event = [
-            Company::EVENT_TEST_BEHAVIOR=> [[$this,'handlerOne'],['backend\models\Company','handlerTwo']]
+            Company::EVENT_TEST_BEHAVIOR => [[$this, 'handlerOne'], ['backend\models\Company', 'handlerTwo']]
         ];
         /*
         $event = [
@@ -64,21 +66,24 @@ class CompanyBehavior extends Behavior{
     /**
      * @return string
      */
-    public function updateName(){
+    public function updateName()
+    {
         return $this->name;
     }
 
     /**
      * @param $event | 事件对象
      */
-    public static function handlerOne($event){
+    public static function handlerOne($event)
+    {
         echo 'handlerOne';
     }
 
     /**
      * @param $event | 事件对象
      */
-    public function handlerTwo($event){
+    public function handlerTwo($event)
+    {
         $this->name = 'newName';
 //        echo 'handlerTwo';
     }

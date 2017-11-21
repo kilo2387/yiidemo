@@ -8,9 +8,9 @@ return [
         ],
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=test',
+            'dsn' => 'mysql:host=localhost;dbname=st_yiidemo',
             'username' => 'root',
-            'password' => 'pTZsHdJa',
+            'password' => 'milan_kilo',
             'charset' => 'utf8',
         ],
         'mailer' => [

@@ -15,14 +15,29 @@ $init_config = require(__DIR__ . '/../../init_config.php');   //引入自定义�
 
 
 
+
+
 $config = yii\helpers\ArrayHelper::merge(
     require(__DIR__ . '/../../my-config.php'),   //引入自定义配置文件
 
     require(__DIR__ . '/../../common/config/main.php'),
-    require(__DIR__ . '/../../common/config/main-local.php'),
-    require(__DIR__ . '/../config/main.php'),
-    require(__DIR__ . '/../config/main-local.php')
+//    require(__DIR__ . '/../../common/config/main-local.php'),
+
+    require(__DIR__ . '/../config/main.php')
+//    require(__DIR__ . '/../config/main-local.php')
 );
+if (YII_ENV_DEV) {
+    // configuration adjustments for 'dev' environment
+    $config['bootstrap'][] = 'debug';
+    $config['modules']['debug'] = [
+        'class' => 'yii\debug\Module',
+    ];
+
+    $config['bootstrap'][] = 'gii';
+    $config['modules']['gii'] = [
+        'class' => 'yii\gii\Module',
+    ];
+}
 
 
 //$obj = new IndexController('index', null, []); //id module $config
