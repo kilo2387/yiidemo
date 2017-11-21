@@ -10,7 +10,7 @@ return [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=localhost;dbname=st_yiidemo',
             'username' => 'root',
-            'password' => 'milan_kilo',
+            'password' => 'nBGY2UZN',
             'charset' => 'utf8',
         ],
         'mailer' => [

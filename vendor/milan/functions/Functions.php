@@ -16,7 +16,7 @@ class Functions
         print_r($params);
         echo '</pre>';
     }
-    
+
     /**
      * 1,2,3转a,b,c
      * @param $delimiter

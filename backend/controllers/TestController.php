@@ -217,4 +217,10 @@ class TestController extends Controller
         }, $params);
         Functions::print_pre($result);
     }
+
+    public function actionMysql()
+    {
+        $result = Users::find()->all();
+        var_dump($result);die;
+    }
 }
