@@ -216,11 +216,83 @@ class TestController extends Controller
 
         }, $params);
         Functions::print_pre($result);
+
     }
 
     public function actionMysql()
     {
         $result = Users::find()->all();
-        var_dump($result);die;
+        var_dump($result);
+        die;
+    }
+
+
+    public function actionSort()
+    {
+        $params1 = [1, 'dd' => 'df', 'we', '2'];
+
+        //比值，不保留索引
+        usort($params1, function ($v1, $v2){
+            if ($v1 > $v2){
+                return 1;
+            }elseif ($v1 == $v2){
+                return 0;
+            }else{
+                return -1;
+            }
+        });
+        Functions::print_pre($params1);
+
+        //比索引值
+        $params1 = [1, 'dd' => 'df', 'we', '2'];
+        uksort($params1, function ($k1, $k2){
+            if ($k1 > $k2){
+                return 1;
+            }elseif ($k1 == $k2){
+                return 0;
+            }else{
+                return -1;
+            }
+        });
+        Functions::print_pre($params1);
+
+        //比值，保留索引
+        uasort($params1, function ($v1, $v2){
+            if ($v1 > $v2){
+                return 1;
+            }elseif ($v1 == $v2){
+                return 0;
+            }else{
+                return -1;
+            }
+        });
+        Functions::print_pre($params1);
+
+        //return true|false
+        sort($params1, SORT_FLAG_CASE); //SORT_NATURAL 1、2、11、12
+        Functions::print_pre($params1);
+
+        echo sizeof($params1);
+        shuffle($params1);
+        Functions::print_pre($params1);
+
+        //下一个
+        next($params1);
+        //上一个
+        prev($params1);
+        //当前
+        current($params1);
+        pos($params1);
+        //重置第一
+        reset($params1);
+
+        $rand = range(0, 99);
+        shuffle($rand);
+        $rand = array_rand($rand, 10);
+        Functions::print_pre($rand);
+
+        $arr = ['2' => 'a', 1 => 'b', 'DD' => 'c', 'dd' => 'we'];
+        natcasesort($arr);
+        Functions::print_pre($arr);
     }
 }
