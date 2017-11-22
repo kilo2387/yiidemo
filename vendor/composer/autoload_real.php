@@ -18,17 +18,15 @@ class ComposerAutoloaderInit4455e385410b1d53e99023fd12b68fe0
         if (null !== self::$loader) {
             return self::$loader;
         }
-        //注册自动装载函数 ['autoload_function',失败是否抛出异常,是追加到函数队列之首]
+
         spl_autoload_register(array('ComposerAutoloaderInit4455e385410b1d53e99023fd12b68fe0', 'loadClassLoader'), true, true);
         self::$loader = $loader = new \Composer\Autoload\ClassLoader();
         spl_autoload_unregister(array('ComposerAutoloaderInit4455e385410b1d53e99023fd12b68fe0', 'loadClassLoader'));
 
-        //是否支持静态自动加载
         $useStaticLoader = PHP_VERSION_ID >= 50600 && !defined('HHVM_VERSION') && (!function_exists('zend_loader_file_encoded') || !zend_loader_file_encoded());
         if ($useStaticLoader) {
             require_once __DIR__ . '/autoload_static.php';
-//            call_user_func('increment', $a);  //调用回调函数increment
-//            call_user_func_array('increment', array(&$a));
+
             call_user_func(\Composer\Autoload\ComposerStaticInit4455e385410b1d53e99023fd12b68fe0::getInitializer($loader));
         } else {
             $map = require __DIR__ . '/autoload_namespaces.php';

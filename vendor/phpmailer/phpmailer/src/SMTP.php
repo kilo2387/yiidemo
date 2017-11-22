@@ -4,6 +4,7 @@
  * PHP Version 5.5.
  *
  * @see       https://github.com/PHPMailer/PHPMailer/ The PHPMailer GitHub project
+ *
  * @author    Marcus Bointon (Synchro/coolbru) <phpmailer@synchromedia.co.uk>
  * @author    Jim Jagielski (jimjag) <jimjag@gmail.com>
  * @author    Andy Prevost (codeworxtech) <codeworxtech@users.sourceforge.net>
@@ -33,7 +34,7 @@ class SMTP
      *
      * @var string
      */
-    const VERSION = '6.0.0';
+    const VERSION = '6.0.1';
 
     /**
      * SMTP line break constant.
@@ -101,14 +102,17 @@ class SMTP
      * * `html` Output escaped, line breaks converted to `<br>`, appropriate for browser output
      * * `error_log` Output to error log as configured in php.ini
      * Alternatively, you can provide a callable expecting two params: a message string and the debug level:
-     * <code>
+     *
+     * ```php
      * $smtp->Debugoutput = function($str, $level) {echo "debug level $level; message: $str";};
-     * </code>
+     * ```
+     *
      * Alternatively, you can pass in an instance of a PSR-3 compatible logger, though only `debug`
      * level output is used:
-     * <code>
+     *
+     * ```php
      * $mail->Debugoutput = new myPsr3Logger;
-     * </code>
+     * ```
      *
      * @var string|callable|\Psr\Log\LoggerInterface
      */
@@ -144,20 +148,26 @@ class SMTP
     public $Timelimit = 300;
 
     /**
-     * @var array Patterns to extract an SMTP transaction id from reply to a DATA command.
+     * Patterns to extract an SMTP transaction id from reply to a DATA command.
      * The first capture group in each regex will be used as the ID.
      * MS ESMTP returns the message ID, which may not be correct for internal tracking.
+     *
+     * @var string[]
      */
     protected $smtp_transaction_id_patterns = [
         'exim' => '/[0-9]{3} OK id=(.*)/',
         'sendmail' => '/[0-9]{3} 2.0.0 (.*) Message/',
         'postfix' => '/[0-9]{3} 2.0.0 Ok: queued as (.*)/',
         'Microsoft_ESMTP' => '/[0-9]{3} 2.[0-9].0 (.*)@(?:.*) Queued mail for delivery/',
+        'Amazon_SES' => '/[0-9]{3} Ok (.*)/',
+        'SendGrid' => '/[0-9]{3} Ok: queued as (.*)/',
     ];
 
     /**
-     * @var string|bool|null The last transaction ID issued in response to a DATA command,
-     * if one was detected
+     * The last transaction ID issued in response to a DATA command,
+     * if one was detected.
+     *
+     * @var string|bool|null
      */
     protected $last_smtp_transaction_id;
 
@@ -222,7 +232,7 @@ class SMTP
             return;
         }
         //Is this a PSR-3 logger?
-        if (is_a($this->Debugoutput, 'Psr\Log\LoggerInterface')) {
+        if ($this->Debugoutput instanceof \Psr\Log\LoggerInterface) {
             $this->Debugoutput->debug($str);
 
             return;
@@ -692,7 +702,7 @@ class SMTP
                 if (!empty($line_out) and $line_out[0] == '.') {
                     $line_out = '.' . $line_out;
                 }
-                $this->client_send($line_out . static::LE);
+                $this->client_send($line_out . static::LE, 'DATA');
             }
         }
 
@@ -888,7 +898,7 @@ class SMTP
 
             return false;
         }
-        $this->client_send($commandstring . static::LE);
+        $this->client_send($commandstring . static::LE, $command);
 
         $this->last_reply = $this->get_lines();
         // Fetch SMTP code and possible error code explanation
@@ -994,13 +1004,21 @@ class SMTP
     /**
      * Send raw data to the server.
      *
-     * @param string $data The data to send
+     * @param string $data    The data to send
+     * @param string $command Optionally, the command this is part of, used only for controlling debug output
      *
      * @return int|bool The number of bytes sent to the server or false on error
      */
-    public function client_send($data)
+    public function client_send($data, $command = '')
     {
-        $this->edebug("CLIENT -> SERVER: $data", self::DEBUG_CLIENT);
+        //If SMTP transcripts are left enabled, or debug output is posted online
+        //it can leak credentials, so hide credentials in all but lowest level
+        if (self::DEBUG_LOWLEVEL > $this->do_debug and
+            in_array($command, ['User & Password', 'Username', 'Password'], true)) {
+            $this->edebug('CLIENT -> SERVER: <credentials hidden>', self::DEBUG_CLIENT);
+        } else {
+            $this->edebug('CLIENT -> SERVER: ' . $data, self::DEBUG_CLIENT);
+        }
         set_error_handler([$this, 'errorHandler']);
         $result = fwrite($this->smtp_conn, $data);
         restore_error_handler();
@@ -1282,7 +1300,8 @@ class SMTP
             $this->last_smtp_transaction_id = false;
             foreach ($this->smtp_transaction_id_patterns as $smtp_transaction_id_pattern) {
                 if (preg_match($smtp_transaction_id_pattern, $reply, $matches)) {
-                    $this->last_smtp_transaction_id = $matches[1];
+                    $this->last_smtp_transaction_id = trim($matches[1]);
+                    break;
                 }
             }
         }
