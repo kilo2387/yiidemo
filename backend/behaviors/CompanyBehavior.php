@@ -22,6 +22,8 @@ class CompanyBehavior extends Behavior
     /**
      * @var string 注入Component的属性
      */
+
+
     protected $name = 'This is CompanyBehavior\'s name belong to Company class';
 
     /**
