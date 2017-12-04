@@ -17,4 +17,11 @@ Class SymbolController extends \yii\web\Controller
         $c = $a <=> $b;
         var_dump($c);
     }
+
+    public function actionModule()
+    {
+        \Yii::$app->get('gii');
+        \Yii::$app->user;
+        \Yii::$app->request->get();
+    }
 }

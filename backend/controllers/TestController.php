@@ -295,4 +295,9 @@ class TestController extends Controller
         natcasesort($arr);
         Functions::print_pre($arr);
     }
+
+    public function actionPhpinfo()
+    {
+        phpinfo();
+    }
 }
