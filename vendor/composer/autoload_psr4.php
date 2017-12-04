@@ -15,6 +15,7 @@ return array(
     'yii\\queue\\beanstalk\\' => array($vendorDir . '/yiisoft/yii2-queue/src/drivers/beanstalk'),
     'yii\\queue\\amqp\\' => array($vendorDir . '/yiisoft/yii2-queue/src/drivers/amqp'),
     'yii\\queue\\' => array($vendorDir . '/yiisoft/yii2-queue/src'),
+    'yii\\imagine\\' => array($vendorDir . '/yiisoft/yii2-imagine'),
     'yii\\gii\\' => array($vendorDir . '/yiisoft/yii2-gii'),
     'yii\\faker\\' => array($vendorDir . '/yiisoft/yii2-faker'),
     'yii\\debug\\' => array($vendorDir . '/yiisoft/yii2-debug'),

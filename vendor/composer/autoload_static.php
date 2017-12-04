@@ -26,6 +26,7 @@ class ComposerStaticInit4455e385410b1d53e99023fd12b68fe0
             'yii\\queue\\beanstalk\\' => 20,
             'yii\\queue\\amqp\\' => 15,
             'yii\\queue\\' => 10,
+            'yii\\imagine\\' => 12,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
             'yii\\debug\\' => 10,
@@ -121,6 +122,10 @@ class ComposerStaticInit4455e385410b1d53e99023fd12b68fe0
         'yii\\queue\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-queue/src',
+        ),
+        'yii\\imagine\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-imagine',
         ),
         'yii\\gii\\' => 
         array (
@@ -252,6 +257,13 @@ class ComposerStaticInit4455e385410b1d53e99023fd12b68fe0
             'PHPExcel' => 
             array (
                 0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
+            ),
+        ),
+        'I' => 
+        array (
+            'Imagine' => 
+            array (
+                0 => __DIR__ . '/..' . '/imagine/imagine/lib',
             ),
         ),
         'H' => 
