@@ -300,4 +300,105 @@ class TestController extends Controller
     {
         phpinfo();
     }
+
+    /**
+     * 圆角处理
+     */
+    public function actionShu()
+    {
+        $avatar = \Yii::getAlias('@backend/views/test/qq.jpg');
+
+
+        $circleAvatar = \Yii::getAlias('@backend/views/test/55.png');
+
+        $r = (int)getimagesize($avatar)[1] / 2;
+
+
+        //        /**
+        //         * @des     画一个正方形
+        //         * @size    两个半径
+        //         */
+        $size = 2 * $r;
+        $circle = new \Imagick();
+        $circle->newImage($size, $size, 'none');
+        $circle->setimageformat('png');
+        $circle->setimagematte(true);
+        //
+        //        /**
+        //         * @des     在矩形上画一个白色圆
+        //         */
+        $draw = new \ImagickDraw();
+        $draw->setfillcolor('#fff');
+        $draw->circle($r, $r, $r, $size);
+        $circle->drawimage($draw);
+
+        //        $circle->writeImage($circleAvatar);
+
+        //        /**
+        //         * @des     裁剪头像成圆形
+        //         */
+        $imagick = new \Imagick();
+        $imagick->readImage($avatar);
+        $imagick->setImageCompressionQuality(0.5);  //压缩质量
+
+        $imagick->setImageFormat('png');
+        $imagick->setimagematte(true);
+        $imagick->cropimage($size, $size, 0, 0); // 修改裁剪属性
+
+        //        $imagick->drawimage($draw);
+        $imagick->compositeimage($circle, \Imagick::COMPOSITE_COPYOPACITY, 0, 0);
+
+        $imagick->thumbnailImage(200, 200); //缩略
+
+
+        $imagick->writeImage($circleAvatar);
+        $imagick->destroy();
+    }
+
+
+    /**
+     * 文字水印
+     */
+    public function actionText()
+    {
+
+        $avatar = \Yii::getAlias('@backend/views/test/bb.png');
+
+
+        $circleAvatar = \Yii::getAlias('@backend/views/test/bb9.png');
+
+        $r = (int)getimagesize($avatar)[1] / 2;
+
+        $image = new \Imagick($avatar);
+        $draw = new \ImagickDraw();
+        $draw->setFontSize(30);
+        $draw->setTextKerning(1); // 设置文件间距
+        //        $draw->setFont('Microsoft Yahei');
+        $draw->setFontWeight(100); // 字体粗体
+        $draw->setFillColor('#000000'); // 字体颜色
+
+
+        $image->annotateImage($draw, 250, 450, 0, 'JGuanGYao');
+        $image->writeImage($circleAvatar);
+        $image->destroy();
+    }
+
+    /** 合logo */
+    public function actionMerge()
+    {
+        $avatar = \Yii::getAlias('@backend/views/test/bb.png');
+
+
+        $circleAvatar = \Yii::getAlias('@backend/views/test/55.png');
+        $path = \Yii::getAlias('@backend/views/test/66.png');
+
+        $code = new \Imagick( $avatar);//被覆盖图片路径
+
+        $codeLogo = new \Imagick( $circleAvatar );//logo
+        $codeLogo->thumbnailImage(50,50);//缩略
+
+        $code->compositeImage( $codeLogo, \imagick::COMPOSITE_DEFAULT , 50, 50 );
+        $code->writeImage($path);
+        $code->destroy();
+    }
 }
