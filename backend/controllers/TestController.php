@@ -302,7 +302,7 @@ class TestController extends Controller
     }
 
     /**
-     * 圆角处理
+     * 圆角处理old
      */
     public function actionShu()
     {
@@ -313,7 +313,7 @@ class TestController extends Controller
 
         $r = (int)getimagesize($avatar)[1] / 2;
 
-
+        //        $image->roundCorners($image->getImageWidth(), $image->getImageHeight());    //圆角处理
         //        /**
         //         * @des     画一个正方形
         //         * @size    两个半径
@@ -356,6 +356,19 @@ class TestController extends Controller
     }
 
 
+    /** 圆角处理 */
+    public function actionCircle()
+    {
+        $avatar = \Yii::getAlias('@backend/views/test/qq.jpg');
+
+
+        $circleAvatar = \Yii::getAlias('@backend/views/test/77.png');
+        $image = new \Imagick($avatar);
+        $image->setbackgroundcolor(new \ImagickPixel('none'));
+        $image->roundCorners($image->getImageWidth(), $image->getImageHeight());    //圆角处理
+        $image->writeImage($circleAvatar);
+        $image->destroy();
+    }
     /**
      * 文字水印
      */
@@ -392,13 +405,26 @@ class TestController extends Controller
         $circleAvatar = \Yii::getAlias('@backend/views/test/55.png');
         $path = \Yii::getAlias('@backend/views/test/66.png');
 
-        $code = new \Imagick( $avatar);//被覆盖图片路径
+        $code = new \Imagick($avatar);//被覆盖图片路径
 
-        $codeLogo = new \Imagick( $circleAvatar );//logo
-        $codeLogo->thumbnailImage(50,50);//缩略
+        $codeLogo = new \Imagick($circleAvatar);//logo
+        $codeLogo->thumbnailImage(50, 50);//缩略
 
-        $code->compositeImage( $codeLogo, \imagick::COMPOSITE_DEFAULT , 50, 50 );
+        $code->compositeImage($codeLogo, \imagick::COMPOSITE_DEFAULT, 50, 50);
         $code->writeImage($path);
         $code->destroy();
+    }
+
+    public function actionCircle()
+    {
+        $avatar = \Yii::getAlias('@backend/views/test/qq.jpg');
+
+
+        $circleAvatar = \Yii::getAlias('@backend/views/test/77.png');
+        $image = new \Imagick($avatar);
+        $image->setbackgroundcolor(new \ImagickPixel('none'));
+        $image->roundCorners($image->getImageWidth(), $image->getImageHeight());    //圆角处理
+        $image->writeImage($circleAvatar);
+        $image->destroy();
     }
 }
