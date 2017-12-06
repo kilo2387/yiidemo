@@ -383,6 +383,8 @@ class TestController extends Controller
         $r = (int)getimagesize($avatar)[1] / 2;
 
         $image = new \Imagick($avatar);
+
+
         $draw = new \ImagickDraw();
         $draw->setFontSize(30);
         $draw->setTextKerning(1); // 设置文件间距
@@ -401,7 +403,6 @@ class TestController extends Controller
     {
         $avatar = \Yii::getAlias('@backend/views/test/bb.png');
 
-
         $circleAvatar = \Yii::getAlias('@backend/views/test/55.png');
         $path = \Yii::getAlias('@backend/views/test/66.png');
 
@@ -415,16 +416,4 @@ class TestController extends Controller
         $code->destroy();
     }
 
-    public function actionCircle()
-    {
-        $avatar = \Yii::getAlias('@backend/views/test/qq.jpg');
-
-
-        $circleAvatar = \Yii::getAlias('@backend/views/test/77.png');
-        $image = new \Imagick($avatar);
-        $image->setbackgroundcolor(new \ImagickPixel('none'));
-        $image->roundCorners($image->getImageWidth(), $image->getImageHeight());    //圆角处理
-        $image->writeImage($circleAvatar);
-        $image->destroy();
-    }
 }
