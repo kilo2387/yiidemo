@@ -9,13 +9,29 @@
 namespace backend\controllers;
 
 use backend\models\Users;
+use common\behaviors\NoCsrf;
 use milan\functions\Functions;
 use yii\db\Exception;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use yii\web\Controller;
 
 class TestController extends Controller
 {
     public $layout = false;
+
+    public function behaviors()
+    {
+        return ArrayHelper::merge(parent::behaviors(), [
+            'csrf' => [
+                'class' => NoCsrf::className(),
+                'controller' => $this,
+                'actions' => [
+                    'request'
+                ]
+            ],
+        ]);
+    }
 
     public function actionTest()
     {
@@ -369,6 +385,7 @@ class TestController extends Controller
         $image->writeImage($circleAvatar);
         $image->destroy();
     }
+
     /**
      * 文字水印
      */
@@ -416,4 +433,12 @@ class TestController extends Controller
         $code->destroy();
     }
 
+    public function actionRequest()
+    {
+        $params = \Yii::$app->request->post();
+        //        $value = ['id'=>'key_value'];
+        //        var_dump(Json::encode($value),Json::encode(Json::decode("{\"id\":\"key_value\"}")));
+        print_r(Json::decode($params['data']));
+        die('eeee');
+    }
 }

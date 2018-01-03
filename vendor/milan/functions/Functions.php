@@ -17,6 +17,17 @@ class Functions
         echo '</pre>';
     }
 
+    public static function print($what)
+    {
+        echo '<pre>';
+        if (is_array($what)){
+            print_r($what);
+        }else{
+            var_dump($what);
+        }
+        echo '</pre>';
+    }
+
     /**
      * 1,2,3转a,b,c
      * @param $delimiter
@@ -125,6 +136,7 @@ class Functions
             $query->andWhere([$field => $value]);
         }
     }
+
     public static function makeUuid()
     {
         return sha1(static::str_rand());
@@ -132,13 +144,14 @@ class Functions
 
     public static function str_rand($length = 32, $char = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
     {
-        if (!is_int($length) || $length < 0) {
+        if (!is_int($length) || $length < 0){
             return false;
         }
         $string = '';
-        for ($i = $length; $i > 0; $i--) {
+        for($i = $length; $i > 0; $i--){
             $string .= $char[mt_rand(0, strlen($char) - 1)];
         }
+
         return $string;
     }
 }

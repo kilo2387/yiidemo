@@ -22,8 +22,6 @@ class CompanyBehavior extends Behavior
     /**
      * @var string 注入Component的属性
      */
-
-
     protected $name = 'This is CompanyBehavior\'s name belong to Company class';
 
     /**
@@ -56,7 +54,6 @@ class CompanyBehavior extends Behavior
             $owner->on($event, is_string($handler) ? [$this, $handler] : $handler);
         }
         */
-
         foreach ($this->events() as $event => $handlers) {
             foreach ($handlers as $handler) {
                 $owner->on($event, is_string($handler) ? [$this, $handler] : $handler);

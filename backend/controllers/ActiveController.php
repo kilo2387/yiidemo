@@ -56,4 +56,5 @@ class ActiveController extends Controller{
         $test_model = new Test();
         Test::updateAll(['age'=>33], ['and',['age'=>44],['in', 'id', [4,5,6]]]);
     }
+
 }

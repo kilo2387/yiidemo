@@ -7,6 +7,7 @@
  */
 
 namespace backend\controllers;
+use Yii;
 Class SymbolController extends \yii\web\Controller
 {
     public function actionPare()
@@ -23,5 +24,13 @@ Class SymbolController extends \yii\web\Controller
         \Yii::$app->get('gii');
         \Yii::$app->user;
         \Yii::$app->request->get();
+    }
+
+    public function actionAla()
+    {
+        var_dump(Yii::getAlias('@milan'));
+
+        Yii::setAlias('@milan','er');
+        var_dump(Yii::getAlias('@milan',true));
     }
 }
