@@ -9,18 +9,18 @@
 namespace common\base;
 
 use yii\web\Response;
-use yii\web\XmlResponseFormatter;
+use common\components\MyXmlResponseFormatter;
 
 class Controller extends \yii\web\Controller
 {
     public function formatXml($data = null, $rootTag = 'xml', $itemTag = 'ChildrenNode')
     {
         return \Yii::createObject([
-            'class' => XmlResponseFormatter::className(),
+            'class' => Response::className(),
             'format' => Response::FORMAT_XML,
             'formatters' => [
                 Response::FORMAT_XML => [
-                    'class' => 'yii\web\XmlResponseFormatter',
+                    'class' => MyXmlResponseFormatter::className(),
                     'rootTag' => (string)$rootTag, //根节点
                     'itemTag' => (string)$itemTag, //单元
                 ],

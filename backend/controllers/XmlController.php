@@ -12,7 +12,7 @@ use common\base\Controller;
 use common\behaviors\NoCsrf;
 use yii\filters\ContentNegotiator;
 use yii\helpers\Json;
-
+use common\components\MyXmlResponseFormatter as MXRF;
 use yii\web\Response;
 use yii\web\XmlResponseFormatter;
 use milan\functions\Functions;
@@ -29,18 +29,6 @@ class XmlController extends Controller
                     'for',
                 ],
             ],
-            'content' => [
-                'class' => ContentNegotiator::className(),
-                'formatParam' => null,          #YII_DEBUG ? '_format' : null,
-                'languageParam' => null,        #YII_DEBUG ? '_lang' : null,
-                'formats' => [
-                    //'application/json' => Response::FORMAT_JSON,
-                    //                    'application/xml' => Response::FORMAT_XML,
-                ],
-                'languages' => [
-                    'zh-CN'
-                ]
-            ],
         ];
     }
 
@@ -54,10 +42,21 @@ class XmlController extends Controller
         //                'itemTag' => 'CreateTime', //单元
         //            ]
         //        ];
+        $request = \Yii::$app->request;
+        $t = \Yii::$app->request->absoluteUrl;
+        $a = \Yii::$app->request->acceptableContentTypes;
+        $b = \Yii::$app->request->getAcceptableContentTypes();
+//        Accept-Language:zh-CN,zh;q=0.9,en;q=0.8
+        var_dump($request->serverName);die('gf');
 
 
+
+        var_dump($a
+//            ,
+//            $b
+        );die();
         return $this->formatXml([
-            "ToUserName" => '$postObject->FromUserName',
+            "ToUserName" => ['$postObject<->FromUserName', MXRF::CDATA => true],
             "FromUserName" => '\'$postObject->ToUserName',
             time(),
             "MsgType" => "music",
