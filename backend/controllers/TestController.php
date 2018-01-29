@@ -12,8 +12,10 @@ use backend\models\Users;
 use common\behaviors\NoCsrf;
 use milan\functions\Functions;
 use yii\db\Exception;
+use yii\filters\ContentNegotiator;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 
 class TestController extends Controller
@@ -28,6 +30,20 @@ class TestController extends Controller
                 'controller' => $this,
                 'actions' => [
                     'request'
+                ]
+            ],
+
+            //自适应返回相应的数据格式
+            'content' => [
+                'class' => ContentNegotiator::className(),
+                'formatParam' => null,          #YII_DEBUG ? '_format' : null,
+                'languageParam' => null,        #YII_DEBUG ? '_lang' : null,
+                'formats' => [
+                    //'application/json' => Response::FORMAT_JSON,
+                    //'application/xml' => Response::FORMAT_XML,
+                ],
+                'languages' => [
+                    'zh-CN'
                 ]
             ],
         ]);
@@ -440,5 +456,11 @@ class TestController extends Controller
         //        var_dump(Json::encode($value),Json::encode(Json::decode("{\"id\":\"key_value\"}")));
         print_r(Json::decode($params['data']));
         die('eeee');
+    }
+
+    public function actionResponse()
+    {
+        \Yii::$app->response->format = 'json';
+        throw new BadRequestHttpException('derer', '999');
     }
 }

@@ -6,10 +6,15 @@
  * Time: 14:49
  */
 namespace backend\controllers;
+use amusic\models\ClassMaterialCollections;
 use PhpOffice\PhpWord\PhpWord;
+use yii\helpers\ArrayHelper;
+
 class WordController extends \backend\base\Controller
 {
     public function actionTest(){
+        $collection = ClassMaterialCollections::findOne(11218);
+        
         // Creating the new document...
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
@@ -47,13 +52,14 @@ class WordController extends \backend\base\Controller
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save(\Yii::getAlias('@runtime/helloWorld.docx'));
 
-        // Saving the document as ODF file...
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODText');
-        $objWriter->save(\Yii::getAlias('@runtime/helloWorld.odt'));
 
-        // Saving the document as HTML file...
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
-        $objWriter->save(\Yii::getAlias('@runtime/helloWorld.html'));
+//        // Saving the document as ODF file...
+//        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'ODText');
+//        $objWriter->save(\Yii::getAlias('@runtime/helloWorld.odt'));
+//
+//        // Saving the document as HTML file...
+//        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
+//        $objWriter->save(\Yii::getAlias('@runtime/helloWorld.html'));
 
         var_dump(\Yii::getAlias('@runtime/helloWorld.html'));
         /* Note: we skip RTF, because it's not XML-based and requires a different example. */
