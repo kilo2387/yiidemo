@@ -3,9 +3,13 @@ return [
     'adminEmail' => 'admin@example.com',
 
 
-    'cronJobs' =>[
+    'cronJobs' => [
         'test/deni' => [
-            'cron'      => '* * * * *',
+            'cron' => '* * * * *',
+            'updateLogFile' => true,
+        ],
+        'test/twice' => [
+            'cron' => '* * * * *',
         ],
     ],
 ];

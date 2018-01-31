@@ -13,7 +13,8 @@ use yii\console\Controller;
 use yii\console\Exception;
 
 
-class CronController extends Controller {
+class CronController extends Controller
+{
 
     const CATEGORY_LOGS = 'cron_controller_logs';
     /**
@@ -62,7 +63,8 @@ class CronController extends Controller {
     /**
      * Initialize empty config parameters.
      */
-    public function init() {
+    public function init()
+    {
         parent::init();
 
         //Checking PHP interpriter path
@@ -70,8 +72,7 @@ class CronController extends Controller {
             if ($this->isWindowsOS()){
                 //Windows OS
                 $this->interpreterPath = 'php.exe';
-            }
-            else{
+            }else{
                 //nix based OS
                 $this->interpreterPath = '/usr/bin/env php';
             }
@@ -90,8 +91,10 @@ class CronController extends Controller {
      * Provides the command description.
      * @return string the command description.
      */
-    public function getHelp() {
-        $commandUsage = Yii::getAlias('@runnerScript').' '.$this->id;
+    public function getHelp()
+    {
+        $commandUsage = Yii::getAlias('@runnerScript') . ' ' . $this->id;
+
         return <<<RAW
 Usage: {$commandUsage} <action>
 
@@ -121,30 +124,40 @@ RAW;
      * @param array $parameters
      * @return array
      */
-    protected function transformDatePieces(array $parameters){
-        $dimensions = array(
-            array(0,59), //Minutes
-            array(0,23), //Hours
-            array(1,31), //Days
-            array(1,12), //Months
-            array(0,6),  //Weekdays
-        );
-        foreach ($parameters AS $n => &$repeat) {
-            list($repeat, $every) = explode('\\', $repeat, 2) + array(false, 1);
-            if ($repeat === '*') $repeat = range($dimensions[$n][0], $dimensions[$n][1]);
-            else {
-                $repeatPiece = array();
-                foreach (explode(',', $repeat) as $piece) {
+    protected function transformDatePieces(array $parameters)
+    {
+        $dimensions = [
+            [0, 59], //Minutes
+            [0, 23], //Hours
+            [1, 31], //Days
+            [1, 12], //Months
+            [0, 6],  //Weekdays
+        ];
+        foreach($parameters AS $n => &$repeat){
+            list($repeat, $every) = explode('\\', $repeat, 2) + [false, 1];
+            if ($repeat === '*'){
+                $repeat = range($dimensions[$n][0], $dimensions[$n][1]);
+            }else{
+                $repeatPiece = [];
+                foreach(explode(',', $repeat) as $piece){
                     $piece = explode('-', $piece, 2);
-                    if (count($piece) === 2) $repeatPiece = array_merge($repeatPiece, range($piece[0], $piece[1]));
-                    else                     $repeatPiece[] = $piece[0];
+                    if (count($piece) === 2){
+                        $repeatPiece = array_merge($repeatPiece, range($piece[0], $piece[1]));
+                    }else{
+                        $repeatPiece[] = $piece[0];
+                    }
                 }
                 $repeat = $repeatPiece;
             }
-            if ($every > 1) foreach ($repeat AS $key => $piece){
-                if ($piece%$every !== 0) unset($repeat[$key]);
+            if ($every > 1){
+                foreach($repeat AS $key => $piece){
+                    if ($piece % $every !== 0){
+                        unset($repeat[$key]);
+                    }
+                }
             }
         }
+
         return $parameters;
     }
 
@@ -154,25 +167,28 @@ RAW;
      * @param string $comment Raw PHPDoc comment
      * @return array List of valid tags
      */
-    protected function parseDocComment($comment){
-        if (empty($comment)) return array();
+    protected function parseDocComment($comment)
+    {
+        if (empty($comment)){
+            return [];
+        }
         //Forming pattern based on $this->tagPrefix
-        $pattern = '#^\s*\*\s+@('.$this->tagPrefix.'(-(\w+))?)\s*(.*?)\s*$#im';
+        $pattern = '#^\s*\*\s+@(' . $this->tagPrefix . '(-(\w+))?)\s*(.*?)\s*$#im';
         //Miss tags:
         //cron, cron-tags, cron-args, cron-strout, cron-stderr
         if (preg_match_all($pattern, $comment, $matches, PREG_SET_ORDER)){
-            foreach ($matches AS $match) $return[$match[3]?$match[3]:0] = $match[4];
+            foreach($matches AS $match) $return[$match[3] ? $match[3] : 0] = $match[4];
 
             if (isset($return[0])){
                 $return['_raw'] = preg_split('#\s+#', $return[0], 5);
                 $return[0] = $this->transformDatePieces($return['_raw']);
                 //Getting tag list. If empty, string "default" will be used.
-                $return['tags'] = isset($return['tags'])?preg_split('#\W+#', $return['tags']):array('default');
+                $return['tags'] = isset($return['tags']) ? preg_split('#\W+#', $return['tags']) : ['default'];
+
                 return $return;
             }
         }
     }
-
 
 
     /**
@@ -182,21 +198,17 @@ RAW;
      * @param string $stdout path to file for writing stdout
      * @param string $stderr path to file for writing stderr
      */
-    protected function runCommandBackground($command, $stdout, $stderr){
+    protected function runCommandBackground($command, $stdout, $stderr)
+    {
         $concat = ($this->updateLogFile) ? ' >>' : ' >';
-        $command =
-            $this->interpreterPath.' '.
-            $command.
-            $concat . escapeshellarg($stdout).
-            ' 2>'.(($stdout === $stderr)?'&1':escapeshellarg($stderr));
+        $command = $this->interpreterPath . ' ' . $command . $concat . escapeshellarg($stdout) . ' 2>' . (($stdout === $stderr) ? '&1' : escapeshellarg($stderr));
 
         if ($this->isWindowsOS()){
             //Windows OS
-            pclose(popen('start /B "Yii run command" '.$command, 'r'));
-        }
-        else{
+            pclose(popen('start /B "Yii run command" ' . $command, 'r'));
+        }else{
             //nix based OS
-            system($command.' &');
+            system($command . ' &');
         }
     }
 
@@ -205,7 +217,8 @@ RAW;
      *
      * @return boolean return true if script running under windows OS
      */
-    protected function isWindowsOS(){
+    protected function isWindowsOS()
+    {
         return strncmp(PHP_OS, 'WIN', 3) === 0;
     }
 
@@ -214,47 +227,66 @@ RAW;
      *
      * @param array $args List of run-tags to running actions (if empty, only "default" run-tag will be runned).
      */
-    public function actionRun($args = array()){
+    public function actionRun($args = [])
+    {
         $tags = &$args;
         $tags[] = 'default';
 
         //Getting timestamp will be used as current
         $time = strtotime($this->timestamp);
-        if ($time === false) throw new Exception('Bad timestamp format');
-        $now = explode(' ', date('i G j n w', $time));
+
+        if ($time === false){
+            throw new Exception('Bad timestamp format');
+        }
+        $now = explode(' ', date('i G j n w', $time));//分时天月星期
+
         $runned = 0;
-        foreach ($this->prepareActions() as $task) {
+
+        foreach($this->prepareActions() as $task){
+
             if (array_intersect($tags, $task['docs']['tags'])){
-                foreach ($now AS $key => $piece){
+                foreach($now AS $key => $piece){
+
                     //Checking current datetime on timestamp piece array.
-                    if (!in_array($piece, $task['docs'][0][$key])) continue 2;
+                    if (!in_array($piece, $task['docs'][0][$key])){
+                        continue 2;
+                    }
                 }
 
                 //Forming command to run
-                $command = $this->bootstrapScript.' '.$task['command'].'/'.$task['action'];
-                if (isset($task['docs']['args'])) $command .= ' '.escapeshellcmd($task['docs']['args']);
+                $command = $this->bootstrapScript . ' ' . $task['command'] . '/' . $task['action'];
+
+                if (isset($task['docs']['args'])){
+
+                    $command .= ' ' . escapeshellcmd($task['docs']['args']);
+                }
 
                 //Setting default stdout & stderr
-                if (isset($task['docs']['stdout'])) $stdout = $task['docs']['stdout'];
-                else                                $stdout = $this->logFileName;
+                if (isset($task['docs']['stdout'])){
+                    $stdout = $task['docs']['stdout'];
+                }else{
+                    $stdout = $this->logFileName;
+                }
 
+                //输出日志
                 $stdout = $this->formatFileName($stdout, $task);
-                if(!is_writable($this->logsDir)) {
+                if (!is_writable($this->logsDir)){
                     $stdout = '/dev/null';
                 }
 
-                $stderr = isset($task['docs']['stderr'])?$this->formatFileName($task['docs']['stderr'], $task):$stdout;
-                if(!is_writable($stderr)) {
+                //错误日志
+                $stderr = isset($task['docs']['stderr']) ? $this->formatFileName($task['docs']['stderr'], $task) : $stdout;
+                if (!is_writable($stderr)){
                     $stdout = '/dev/null';
                 }
                 $this->runCommandBackground($command, $stdout, $stderr);
-                Yii::info('Running task ['.(++$runned).']: '.$task['command'].' '.$task['action'], self::CATEGORY_LOGS);
+                Yii::info('Running task [' . (++$runned) . ']: ' . $task['command'] . ' ' . $task['action'], self::CATEGORY_LOGS);
             }
         }
         if ($runned > 0){
-            Yii::info('Runned '.$runned.' task(s) at '.date('r', $time), self::CATEGORY_LOGS);
-        } else {
-            Yii::info('No task on '.date('r', $time), self::CATEGORY_LOGS);
+            Yii::info('Runned ' . $runned . ' task(s) at ' . date('r', $time), self::CATEGORY_LOGS);
+        }else{
+            Yii::info('No task on ' . date('r', $time), self::CATEGORY_LOGS);
         }
     }
 
@@ -263,34 +295,34 @@ RAW;
      *
      * @param $args array List of run-tags for filtering action list (if empty, show all).
      */
-    public function actionView($args = array()){
+    public function actionView($args = [])
+    {
         $tags = &$args;
 
-        foreach ($this->prepareActions() as $task) {
+        foreach($this->prepareActions() as $task){
             if (!$tags || array_intersect($tags, $task['docs']['tags'])){
                 //Forming to using with printf function
                 $times = $task['docs']['_raw'];
-                array_unshift($times, $task['command'].'.'.$task['action']);
+                array_unshift($times, $task['command'] . '.' . $task['action']);
                 array_unshift($times, "Action %-40s on %6s %6s %6s %6s %6s %s\n");
-                array_push($times, empty($task['docs']['tags'])?'':(' ('.implode(', ', $task['docs']['tags']).')'));
+                array_push($times, empty($task['docs']['tags']) ? '' : (' (' . implode(', ', $task['docs']['tags']) . ')'));
                 call_user_func_array('printf', $times);
             }
         }
     }
 
-    protected function formatFileName($pattern, $task){
-        $pattern = str_replace(
-            array('%L', '%C', '%A', '%P'),
-            array($this->logsDir, $task['command'], $task['action'], getmypid()),
-            $pattern
-        );
+    protected function formatFileName($pattern, $task)
+    {
+        $pattern = str_replace(['%L', '%C', '%A', '%P'], [$this->logsDir, $task['command'], $task['action'], getmypid()], $pattern);
+
         return preg_replace_callback('#%D\((.+)\)#U', create_function('$str', 'return date($str[1]);'), $pattern);
     }
 
     /**
      * Help command. Show command usage.
      */
-    public function actionHelp(){
+    public function actionHelp()
+    {
         echo $this->getHelp();
     }
 
@@ -302,55 +334,56 @@ RAW;
 
     protected function prepareActions()
     {
-        $actions = array();
-        try {
+        $actions = [];
+        try{
             $methods = Yii::$app->params['cronJobs'];
-        }catch (yii\base\ErrorException $e) {
-            throw new yii\base\ErrorException('Empty param cronJobs in params. ',8);
+        }catch(yii\base\ErrorException $e){
+            throw new yii\base\ErrorException('Empty param cronJobs in params. ', 8);
         }
 
-        if (!empty($methods)) {
+        if (!empty($methods)){
 
-            foreach ($methods as $runCommand => $runSettings) {
+            foreach($methods as $runCommand => $runSettings){
                 $runCommand = explode('/', $runCommand);
 
-                if (count($runCommand) == 2) {
-                    $actions[] = array(
+                if (count($runCommand) == 2){
+                    $actions[] = [
                         'command' => $runCommand[0],
-                        'action'  => $runCommand[1],
-                        'docs'    => $this->parseDocComment($this->arrayToDocComment($runSettings))
-                    );
+                        'action' => $runCommand[1],
+                        'docs' => $this->parseDocComment($this->arrayToDocComment($runSettings))
+                    ];
                 }
-                if (count($runCommand) == 3) {
-                    $actions[] = array(
+                if (count($runCommand) == 3){
+                    $actions[] = [
                         'command' => $runCommand[0] . '/' . $runCommand[1],
-                        'action'  => $runCommand[2],
-                        'docs'    => $this->parseDocComment($this->arrayToDocComment($runSettings))
-                    );
+                        'action' => $runCommand[2],
+                        'docs' => $this->parseDocComment($this->arrayToDocComment($runSettings))
+                    ];
                 }
 
-                if (count($runCommand) == 4) {
-                    $actions[] = array(
-                        'command' => $runCommand[0] . '/' . $runCommand[1] .  '/' . $runCommand[2],
-                        'action'  => $runCommand[3],
-                        'docs'    => $this->parseDocComment($this->arrayToDocComment($runSettings))
-                    );
+                if (count($runCommand) == 4){
+                    $actions[] = [
+                        'command' => $runCommand[0] . '/' . $runCommand[1] . '/' . $runCommand[2],
+                        'action' => $runCommand[3],
+                        'docs' => $this->parseDocComment($this->arrayToDocComment($runSettings))
+                    ];
                 }
 
-                if(empty($actions)) {
+                if (empty($actions)){
                     continue;
                 }
 
 
             }
         }
+
         return $actions;
     }
 
     protected function arrayToDocComment(array $runSettings)
     {
         $result = "/**\n";
-        foreach ($runSettings as $key => $setting) {
+        foreach($runSettings as $key => $setting){
             $result .= '* @' . $key . ' ' . $setting . "\n";
         }
         $result .= "*/\n";

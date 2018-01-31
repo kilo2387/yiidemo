@@ -15,7 +15,8 @@ return [
             'namespace' => 'common\fixtures',
           ],
         'cron' => [
-            'class' => 'denisog\cronjobs\CronController'
+            'class' => 'console\base\Controller',
+            'updateLogFile' => true
         ],
     ],
     'components' => [
