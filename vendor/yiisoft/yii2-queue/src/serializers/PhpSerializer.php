@@ -8,13 +8,14 @@
 namespace yii\queue\serializers;
 
 use yii\base\BaseObject;
+use yii\base\Object;
 
 /**
  * Class PhpSerializer
  *
  * @author Roman Zhuravlev <zhuravljov@gmail.com>
  */
-class PhpSerializer extends BaseObject implements SerializerInterface
+class PhpSerializer extends Object implements SerializerInterface
 {
     /**
      * @inheritdoc

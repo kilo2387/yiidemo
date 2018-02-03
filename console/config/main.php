@@ -1,19 +1,16 @@
 <?php
-$params = array_merge(
-    require(__DIR__ . '/../../common/config/params.php'),
-    require(__DIR__ . '/params.php')
-);
+$params = array_merge(require(__DIR__ . '/../../common/config/params.php'), require(__DIR__ . '/params.php'));
 
 return [
     'id' => 'app-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'queue'],
     'controllerNamespace' => 'console\controllers',
     'controllerMap' => [
         'fixture' => [
             'class' => 'yii\console\controllers\FixtureController',
             'namespace' => 'common\fixtures',
-          ],
+        ],
         'cron' => [
             'class' => 'console\base\Controller',
             'updateLogFile' => true
@@ -28,6 +25,13 @@ return [
                 ],
             ],
         ],
+
+        'queue' => [
+            'class' => \yii\queue\redis\Queue::className(),
+            'as log' => \yii\queue\LogBehavior::className(),
+            // Other driver options
+        ],
     ],
+
     'params' => $params,
 ];
